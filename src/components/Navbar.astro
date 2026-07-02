@@ -1,0 +1,163 @@
+---
+const navLinks = [
+  { href: "#hero", label: "Accueil" },
+  { href: "#services", label: "Services" },
+  { href: "#realisations", label: "Réalisations" },
+  { href: "#about", label: "À propos" },
+  { href: "#etapes", label: "Étapes" },
+  { href: "#faq", label: "FAQ" },
+  { href: "#contact", label: "Contact" },
+];
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300"
+  data-navbar
+>
+  <nav
+    class="mx-auto flex h-20 max-w-[1400px] items-center justify-between px-6 lg:px-10"
+    aria-label="Navigation principale"
+  >
+    <a
+      href="/"
+      class="font-display text-lg uppercase tracking-[0.2em] text-ink"
+    >
+      MLD DEV
+    </a>
+
+    <ul class="hidden items-center gap-4 font-mono text-xs uppercase tracking-[0.15em] text-body lg:flex">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="transition-colors duration-200 hover:text-accent"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a href="#contact" class="btn-primary hidden lg:inline-flex">
+      Discutons de votre projet
+    </a>
+
+    <button
+      type="button"
+      class="flex h-11 w-11 items-center justify-center text-ink lg:hidden"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-mobile-toggle
+    >
+      <svg
+        data-icon-open
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
+      </svg>
+      <svg
+        data-icon-close
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="hidden"
+        aria-hidden="true"
+      >
+        <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
+      </svg>
+    </button>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="grid grid-rows-[0fr] border-b border-hairline bg-canvas transition-[grid-template-rows] duration-300 ease-in-out lg:hidden"
+    data-mobile-menu
+  >
+    <div class="overflow-hidden">
+      <ul class="flex flex-col gap-1 px-6 py-6 font-mono text-sm uppercase tracking-[0.15em] text-body">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="block py-3 transition-colors duration-200 hover:text-accent"
+              data-mobile-link
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <li class="pt-2">
+          <a href="#contact" class="btn-primary w-full" data-mobile-link>
+            Discutons de votre projet
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-navbar]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-mobile-toggle]");
+  const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+  const iconOpen = toggle?.querySelector("[data-icon-open]");
+  const iconClose = toggle?.querySelector("[data-icon-close]");
+  const mobileLinks = document.querySelectorAll<HTMLAnchorElement>("[data-mobile-link]");
+
+  const SCROLL_THRESHOLD = 40;
+
+  function updateNavbarState() {
+    if (!header) return;
+    const scrolled = window.scrollY > SCROLL_THRESHOLD;
+    header.classList.toggle("bg-canvas", scrolled);
+    header.classList.toggle("border-hairline", scrolled);
+    header.classList.toggle("border-transparent", !scrolled);
+  }
+
+  function closeMenu() {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("grid-rows-[1fr]");
+    menu.classList.add("grid-rows-[0fr]");
+    iconOpen?.classList.remove("hidden");
+    iconClose?.classList.add("hidden");
+  }
+
+  function openMenu() {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Fermer le menu");
+    menu.classList.remove("grid-rows-[0fr]");
+    menu.classList.add("grid-rows-[1fr]");
+    iconOpen?.classList.add("hidden");
+    iconClose?.classList.remove("hidden");
+  }
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  mobileLinks.forEach((link) => link.addEventListener("click", closeMenu));
+
+  window.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key === "Escape") closeMenu();
+    },
+  );
+
+  updateNavbarState();
+  window.addEventListener("scroll", updateNavbarState, { passive: true });
+</script>

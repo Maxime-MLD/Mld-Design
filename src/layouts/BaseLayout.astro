@@ -1,0 +1,107 @@
+---
+import "@fontsource-variable/inter/index.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/allura/400.css";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Relative path, e.g. "/mentions-legales". Defaults to the current page. */
+  path?: string;
+  /** Set to false on utility pages that shouldn't carry the LocalBusiness schema (rare — default true). */
+  includeLocalBusinessSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  includeLocalBusinessSchema = true,
+} = Astro.props;
+
+const canonicalURL = new URL(path, Astro.site);
+const ogImageURL = new URL("/og-image.jpg", Astro.site);
+
+// TODO: remplacer par les vraies coordonnées avant mise en ligne
+const localBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "MLD Dev",
+  image: ogImageURL.toString(),
+  url: Astro.site?.toString(),
+  telephone: "0662599771",
+  email: "contact@mld-dev.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Roanne",
+    addressRegion: "Loire",
+    postalCode: "42300",
+    addressCountry: "FR",
+  },
+  areaServed: {
+    "@type": "State",
+    name: "France",
+  },
+  priceRange: "€€",
+  sameAs: [
+    "https://www.linkedin.com/in/maxime-lagraa-4a4299386",
+    "https://g.page/r/CS8mjzvXV0OrEAE/review",
+    "[TODO: URL Instagram]",
+  ],
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MLD Dev" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- TODO: remplacer par la vraie balise fournie par Google Search Console -->
+    <meta name="google-site-verification" content="[TODO: code de vérification Google Search Console]" />
+
+    {includeLocalBusinessSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} is:inline />
+    )}
+
+    <!-- Fonts critiques préchargées pour éviter le layout shift -->
+    <link rel="preload" href="/fonts/switzer-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-canvas focus:text-ink focus:px-4 focus:py-2 focus:border focus:border-hairline-strong">
+      Aller au contenu principal
+    </a>
+    <slot />
+
+    <script>
+      import { initLenis } from "../scripts/lenis";
+      import { initAnimations } from "../scripts/animations";
+
+      initLenis();
+      initAnimations();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+---
+const stats = [
+  {
+    value: "+20",
+    label: "Sites créés",
+    // border: "border-r border-b border-hairline lg:border-b-0 lg:border-r",
+  },
+  {
+    value: "24H",
+    label: "Délai de réponse maximum",
+    // border: "border-b border-hairline lg:border-b-0 lg:border-r",
+  },
+  {
+    value: "100%",
+    label: "Propriétaire de votre site",
+    // border: "border-r border-hairline lg:border-r",
+  },
+  {
+    value: "A à Z",
+    label: "Je m'occupe de tout",
+    // border: "border-hairline",
+  },
+];
+---
+
+<section aria-label="Chiffres clés">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <div class="grid grid-cols-2 lg:grid-cols-4">
+      {stats.map((stat) => (
+        <div
+          class={`flex flex-col items-center gap-2 px-6 py-10 text-center lg:py-14 ${stat}`}
+          data-animate="reveal"
+        >
+          <span class="font-display text-3xl text-accent lg:text-4xl">{stat.value}</span>
+          <span class="label-mono">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

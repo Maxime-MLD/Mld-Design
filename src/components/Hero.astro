@@ -1,0 +1,73 @@
+---
+// ---------------------------------------------------------------------------
+// Fond du Hero — deux options prêtes à l'emploi, désactivées par défaut.
+// Décommenter L'IMPORT correspondant ici ET le bloc de balisage plus bas
+// (les deux vont ensemble), puis retirer la classe "bg-canvas" du conteneur.
+// ---------------------------------------------------------------------------
+
+// OPTION A — VIDÉO : nécessite src/assets/video/hero.mp4
+import heroVideo from "../assets/video/hero_video.mp4";
+
+// OPTION B — IMAGE : nécessite une image dans src/assets/images/
+// import { Image } from "astro:assets";
+// import heroImage from "../assets/images/hero_mld.png";
+---
+
+<section
+  id="hero"
+  class="relative flex min-h-screen items-end overflow-hidden lg:items-center"
+>
+  <div class="absolute inset-0 -z-0" data-hero-bg>
+    
+      <!-- ACTIVER ICI : décommenter le bloc VIDEO ou le bloc IMAGE ci-dessous
+      (et l'import correspondant dans le frontmatter), puis supprimer la
+      classe "bg-canvas" sur le div parent. -->
+
+      <!-- BLOC A — VIDEO
+      <video
+        class="absolute inset-0 h-full w-full object-cover"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="/images/hero-poster.webp"
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 bg-black/60"></div> -->
+
+      <!-- <Image
+        src={heroImage}
+        alt="Réalisation MLD Dev — site vitrine responsive pour artisan"
+        class="absolute inset-0 h-full w-full object-cover"
+        style=""
+        loading="eager"
+        fetchpriority="high"
+        width={1920}
+        height={1080}
+      />
+      <div class="absolute inset-0 bg-black/80"></div> -->
+  </div>
+
+  <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-24 lg:px-10 lg:pb-0">
+    <!-- <p class="label-mono mb-6" data-animate="reveal">
+      Des sites modernes
+    </p> -->
+
+    <h1 class="max-w-4xl text-4xl lg:text-6xl" data-animate="reveal">
+      Agence web à Roanne dans la création <br> de site internet
+    </h1>
+
+    <p
+      class="mt-6 max-w-xl font-body text-base normal-case tracking-normal text-body lg:text-lg"
+      data-animate="reveal"
+    >
+      Je crée des sites vitrine modernes qui donnent aux entreprises de Roanne & de la Loire (42) la visibilité qu'elles méritent.
+    </p>
+
+    <div class="mt-10" data-animate="reveal">
+      <a href="#contact" class="btn-primary">Discutons de votre projet</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,107 @@
+---
+const faqs = [
+  {
+    q: "Quels sont les délais de réalisation ?",
+    a: "Comptez généralement entre 1 et 2 semaines pour un site vitrine mono-page (Landing Page) et entre 2 à 4 semaines pour un site multi-pages. Ce délai varie selon la complexité de votre projet, la réactivité de nos échanges et la vitesse de transmission de vos contenus.",
+  },
+  {
+    q: "Combien coûte un site web ?",
+    a: "Chaque projet est différent : un site mono-page n'a pas le même tarif qu'un site multi-pages avec plusieurs fonctionnalités. À titre indicatif, nos tarifs démarrent généralement à partir de 800€ pour un site mono-page. Pour obtenir un tarif précis et adapté à votre budget, nous vous proposons un devis gratuit et sans engagement à l'issue de notre premier échange.",
+  },
+  {
+    q: "Serai-je pleinement propriétaire de mon site internet ?",
+    a: "Oui, à 100 %. Contrairement aux offres avec abonnement captif, le site que je conçois vous appartient entièrement.",
+  },
+  {
+    q: "Mon site sera-t-il visible sur Google ?",
+    a: "Je mets en place les bonnes pratiques SEO dès la conception (structure, balises, vitesse de chargement, référencement local) pour vous donner toutes les chances d'apparaître sur Google. Le référencement naturel prend du temps, mais les fondations sont posées dès le départ.",
+  },
+  {
+    q: "Je peux apporter des modifications à mon site ?",
+    a: "Bien sûr. Une fois le site livré, je propose un service de maintenance pour garder votre site à jour et vous pouvez me solliciter pour toute modification, ou je peux vous former à effectuer vous-même les changements simples si vous le souhaitez.",
+  },
+  {
+    q: "Travaillez-vous partout en France ?",
+    a: "Je suis basé à Roanne, dans la Loire, et j'interviens principalement dans la région. Les échanges à distance (visio, téléphone, email) me permettent toutefois d'accompagner des clients partout en France.",
+  },
+  // {
+    
+  //   q: "TODO: 7e question à fournir",
+  //   a: "TODO: réponse à fournir.",
+  // },
+];
+---
+
+<section id="faq" class="section-y scroll-mt-24" aria-labelledby="faq-heading">
+  <div class="mx-auto max-w-[1000px] px-6 lg:px-10">
+    <h2 id="faq-heading" class="max-w-2xl text-3xl lg:text-5xl" data-animate="reveal">
+      Questions fréquentes
+    </h2>
+
+    <div class="mt-16">
+      {faqs.map((faq, i) => (
+        <div class="border-b border-hairline" data-faq-item data-animate="reveal">
+          <h3>
+            <button
+              type="button"
+              class="flex w-full items-center justify-between gap-6 py-6 text-left"
+              aria-expanded="false"
+              aria-controls={`faq-panel-${i}`}
+              id={`faq-trigger-${i}`}
+              data-faq-trigger
+            >
+              <span class="font-display text-base normal-case tracking-normal text-ink lg:text-lg">
+                {faq.q}
+              </span>
+              <span
+                class="relative flex h-4 w-4 shrink-0 items-center justify-center text-muted transition-colors duration-300"
+                data-faq-icon
+                aria-hidden="true"
+              >
+                <span class="absolute h-[1.5px] w-4 bg-current"></span>
+                <span
+                  class="absolute h-4 w-[1.5px] bg-current transition-transform duration-300"
+                  data-faq-icon-vertical
+                ></span>
+              </span>
+            </button>
+          </h3>
+          <div
+            id={`faq-panel-${i}`}
+            role="region"
+            aria-labelledby={`faq-trigger-${i}`}
+            class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out"
+            data-faq-panel
+          >
+            <div class="overflow-hidden">
+              <p class="max-w-2xl pb-6 font-body text-sm normal-case tracking-normal text-body">
+                {faq.a}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const items = document.querySelectorAll<HTMLElement>("[data-faq-item]");
+
+  items.forEach((item) => {
+    const trigger = item.querySelector<HTMLButtonElement>("[data-faq-trigger]");
+    const panel = item.querySelector<HTMLElement>("[data-faq-panel]");
+    const icon = item.querySelector<HTMLElement>("[data-faq-icon]");
+    const iconVertical = item.querySelector<HTMLElement>("[data-faq-icon-vertical]");
+    if (!trigger || !panel) return;
+
+    trigger.addEventListener("click", () => {
+      const expanded = trigger.getAttribute("aria-expanded") === "true";
+      trigger.setAttribute("aria-expanded", String(!expanded));
+      panel.classList.toggle("grid-rows-[0fr]", expanded);
+      panel.classList.toggle("grid-rows-[1fr]", !expanded);
+      icon?.classList.toggle("text-accent", !expanded);
+      iconVertical?.classList.toggle("rotate-90", !expanded);
+    });
+  });
+</script>

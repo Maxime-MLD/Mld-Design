@@ -1,0 +1,101 @@
+---
+const steps = [
+  {
+    index: "01",
+    title: "On échange",
+    description: "Un appel pour comprendre vos besoins.",
+  },
+  {
+    index: "02",
+    title: "La maquette",
+    description:
+      "Je conçois la maquette de votre site et nous validons ensemble le design.",
+  },
+  {
+    index: "03",
+    title: "Je crée votre site",
+    description: "Je code le site à partir de la maquette validée ensemble.",
+  },
+  {
+    index: "04",
+    title: "Livraison de votre site",
+    description: "Je déploie le site en ligne et il vous appartient.",
+  },
+];
+---
+
+<section id="etapes" class="section-y scroll-mt-24" aria-labelledby="etapes-heading">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <h2 id="etapes-heading" class="max-w-2xl text-3xl lg:text-5xl" data-animate="reveal">
+      Les étapes
+    </h2>
+
+    <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      {steps.map((step) => (
+          <div
+            class="card-glow relative overflow-hidden p-8"
+            data-step-card
+            data-animate="reveal"
+          >
+            <span class="font-display text-3xl text-muted lg:text-4xl">
+              {step.index}
+            </span>
+            <h3 class="mt-4 text-lg lg:text-xl text-accent">{step.title}</h3>
+            <p class="mt-2 font-body text-sm normal-case leading-snug tracking-normal text-ink">
+              {step.description}
+            </p>
+          </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- <style>
+  /* Spotlight qui suit le curseur — superposé au fond .card-glow existant.
+     Position pilotée par --mouse-x/--mouse-y, mises à jour dans animations.ts. */
+  [data-step-card]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(59, 130, 246, 0.08),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  [data-step-card]:hover::before {
+    opacity: 1;
+  }
+
+  [data-step-card] > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-step-card]::before {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    [data-step-wrapper]::after {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    [data-step-wrapper]:not(:last-child)::after {
+      left: auto;
+      bottom: auto;
+      top: 50%;
+      right: -16px;
+      translate: 0 -50%;
+    }
+  }
+</style> -->

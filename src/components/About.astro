@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+// TODO: remplacer ce placeholder par la vraie photo (portrait, format 4:5 recommandé)
+import aboutPhoto from "../assets/images/about/about_max.png";
+
+const highlights = [
+  "Interlocuteur unique, du premier échange à la mise en ligne",
+  "Un site moderne & performant pour votre entreprise",
+  "Un site qui vous appartient à 100%",
+];
+---
+
+<section id="about" class="section-y scroll-mt-24" aria-labelledby="about-heading">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <!-- <p class="label-mono mb-6" data-animate="reveal">À propos</p> -->
+    <h2
+      id="about-heading"
+      class="max-w-2xl text-3xl lg:text-5xl"
+      data-animate="reveal"
+    >
+      A propos de moi
+    </h2>
+
+    <div
+      class="mt-16 grid grid-cols-1 border border-hairline bg-surface-card lg:grid-cols-2"
+      data-animate="reveal"
+    >
+      <div class="relative min-h-[320px] lg:min-h-[520px]">
+        <Image
+          src={aboutPhoto}
+          alt="portrait du fondateur de MLD Dev à Roanne"
+          width={1000}
+          height={1250}
+          loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover object-[50%_30%]"
+        />
+      </div>
+
+      <div class="flex flex-col justify-center p-8 lg:p-16">
+        <h3 class="text-2xl lg:text-4xl">
+          Un artisan du web, près de chez vous
+        </h3>
+        <p class="mt-6 max-w-lg font-body text-base normal-case tracking-normal text-body">
+          Je suis Maxime, fondateur de MLD Dev. J'aide les entreprises à se démarquer en ligne avec des sites modernes et performants. Chaque projet, je le prends en main personnellement, du premier café à la mise en ligne.
+        </p>
+
+        <ul class="mt-8 flex flex-col gap-4">
+          {highlights.map((item) => (
+            <li class="border-t border-hairline pt-4 font-mono text-xs uppercase tracking-[0.1em] text-muted">
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-10">
+          <a href="#contact" class="btn-primary">Discutons de votre projet</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

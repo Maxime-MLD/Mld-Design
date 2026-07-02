@@ -1,0 +1,48 @@
+---
+const services = [
+  {
+    index: "01",
+    title: "Sites mono-page",
+    description:
+      "Un site one-page efficace pour présenter votre activité, vos services et votre localisation en une seule page pensée pour convertir vite.",
+  },
+  {
+    index: "02",
+    title: "Sites multi-pages",
+    description:
+      "Une structure de plusieurs pages pour détailler vos services, vos réalisations et votre histoire, avec une architecture pensée pour le référencement.",
+  },
+  {
+    index: "03",
+    title: "Refonte de site",
+    description:
+      "Votre site actuel ne vous ressemble plus ou ne convertit pas ? Je le repense entièrement, du design au code, sans perdre votre référencement existant.",
+  },
+  {
+    index: "04",
+    title: "Maintenance",
+    description:
+      "Je garde votre site performant, à jour et sécurisé, et j'interviens rapidement pour toute modification ou évolution future.",
+  },
+];
+---
+
+<section id="services" class="section-y scroll-mt-24" aria-labelledby="services-heading">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <h2 id="services-heading" class="max-w-2xl text-3xl lg:text-5xl" data-animate="reveal">
+      Mes Services
+    </h2>
+
+    <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {services.map((service) => (
+        <div class="card-glow flex flex-col gap-6 p-8" data-animate="reveal">
+          <span class="font-mono text-xs text-muted">{service.index}</span>
+          <h3 class="text-lg lg:text-xl text-accent">{service.title}</h3>
+          <p class="font-body text-sm normal-case tracking-normal text-ink">
+            {service.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

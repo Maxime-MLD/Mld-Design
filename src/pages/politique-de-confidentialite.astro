@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  title="Politique de confidentialité — MLD Dev"
+  description="Politique de confidentialité du site MLD Dev : données collectées, finalités et droits des utilisateurs."
+>
+  <Navbar />
+  <main id="main" class="section-y">
+    <div class="mx-auto max-w-[800px] px-6 lg:px-10">
+      <h1 class="text-3xl lg:text-5xl">Politique de confidentialité</h1>
+
+      <div class="mt-12 flex flex-col gap-10 font-body text-sm normal-case tracking-normal text-body">
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Responsable du traitement</h2>
+          <p class="mt-3">
+            MLD Dev est responsable du traitement des données collectées sur ce site.
+            Pour toute question : contact@mld-dev.com
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Données collectées</h2>
+          <p class="mt-3">
+            Le formulaire de contact collecte les données suivantes : nom, adresse email, numéro
+            de téléphone (facultatif) et le contenu de votre message. Ces informations sont
+            transmises via le service tiers Web3Forms.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Finalité du traitement</h2>
+          <p class="mt-3">
+            Ces données sont utilisées exclusivement pour répondre à votre demande de contact ou
+            de devis. Elles ne sont ni revendues, ni utilisées à des fins commerciales tierces.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Base légale</h2>
+          <p class="mt-3">
+            Le traitement repose sur votre consentement, exprimé lors de l'envoi volontaire du
+            formulaire de contact.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Durée de conservation</h2>
+          <p class="mt-3">
+            Les données transmises via le formulaire sont conservées le temps nécessaire au
+            traitement de votre demande, puis supprimées ou archivées conformément aux obligations
+            légales applicables.
+            <!-- TODO: préciser une durée exacte si nécessaire -->
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Vos droits</h2>
+          <p class="mt-3">
+            Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez
+            d'un droit d'accès, de rectification, de suppression et d'opposition concernant vos
+            données personnelles. Pour exercer ces droits, contactez-nous à l'adresse
+            contact@mld-dev.com.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Cookies</h2>
+          <p class="mt-3">
+            Ce site n'utilise pas de cookies de suivi publicitaire. Seuls des cookies strictement
+            nécessaires au fonctionnement du site peuvent être déposés, le cas échéant.
+            <!-- TODO: mettre à jour si un outil d'analytics ou de mesure d'audience est ajouté -->
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

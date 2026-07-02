@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  title="Mentions légales — MLD Dev"
+  description="Mentions légales du site MLD Dev, agence de création de sites internet à Roanne, dans la Loire."
+>
+  <Navbar />
+  <main id="main" class="section-y">
+    <div class="mx-auto max-w-[800px] px-6 lg:px-10">
+      <h1 class="text-3xl lg:text-5xl">Mentions légales</h1>
+
+      <div class="mt-12 flex flex-col gap-10 font-body text-sm normal-case tracking-normal text-body">
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Éditeur du site</h2>
+          <p class="mt-3">
+            Le site mld-dev.com est édité par MLD Dev.
+            <br />
+            Statut juridique : Entrepreneur individuel — profession libérale non réglementée
+            <br />
+            SIRET : 84879902900022
+            <br />
+            Adresse : 41 chemin de Villevert, 42720 Vougy, France
+            <br />
+            Email : contact@mld-dev.com
+            <br />
+            Téléphone : 06 62 59 97 71
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Directeur de la publication</h2>
+          <p class="mt-3">Maxime Lagraa, joignable à l'adresse contact@mld-dev.com</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Hébergement</h2>
+          <p class="mt-3">
+            <!-- TODO: compléter avec les informations de l'hébergeur retenu au moment du déploiement -->
+            Nom de l'hébergeur : Vercel Inc
+            <br />
+            Adresse : 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis
+            <br />
+            Site web : https://vercel.com/
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Propriété intellectuelle</h2>
+          <p class="mt-3">
+            L'ensemble des contenus présents sur ce site (textes, images, logo, code source) est
+            la propriété de MLD Dev ou de ses clients, sauf mention contraire. Toute reproduction,
+            représentation, modification ou exploitation, totale ou partielle, sans autorisation
+            préalable est interdite.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Données personnelles</h2>
+          <p class="mt-3">
+            Les informations recueillies via le formulaire de contact font l'objet d'un traitement
+            décrit dans notre
+            <a href="/politique-de-confidentialite" class="link-inline">politique de confidentialité</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg normal-case tracking-normal text-ink">Droit applicable</h2>
+          <p class="mt-3">
+            Le présent site et les présentes mentions légales sont soumis au droit français. En cas
+            de litige et à défaut de résolution amiable, les tribunaux français seront seuls
+            compétents.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,61 @@
+---
+const stats = [
+  {
+    value: "97%",
+    description:
+      "des internautes utilisent internet pour trouver et découvrir une entreprise locale",
+    source: "Source : Google",
+    // Mobile : padding bas + divider horizontal. Desktop : divider vertical à droite.
+    dividerClass:
+      "pb-8 border-b border-hairline lg:border-b-0 lg:border-r lg:pb-0 lg:pr-10",
+  },
+  {
+    value: "75%",
+    description:
+      "des utilisateurs jugent la crédibilité et le sérieux d'une entreprise locale sur l'aspect de son site internet",
+    source: "Source : Université de Stanford, San Francisco",
+    dividerClass:
+      "pt-8 pb-8 border-b border-hairline lg:border-b-0 lg:border-r lg:py-0 lg:px-10",
+  },
+  {
+    value: "46%",
+    description:
+      "de toutes les recherches quotidiennes sur Google ont une intention locale",
+    source: "Source : Google",
+    dividerClass: "pt-8 lg:pt-0 lg:pl-10",
+  },
+];
+---
+
+<section class="section-y" aria-labelledby="constat-heading">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <h2
+      id="constat-heading"
+      class="max-w-2xl text-3xl lg:text-5xl"
+      data-animate="reveal"
+    >
+      Le saviez-vous ?
+    </h2>
+
+    <div
+      class="card-glow mt-16 p-8 lg:p-16"
+      data-animate="reveal"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-3">
+        {stats.map((stat) => (
+          <div class={stat.dividerClass}>
+            <p class="font-display text-6xl text-accent lg:text-7xl">
+              {stat.value}
+            </p>
+            <p class="mt-4 max-w-xs font-mono text-xs uppercase leading-relaxed tracking-[0.1em] text-ink">
+              {stat.description}
+            </p>
+            <p class="mt-6 font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
+              {stat.source}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

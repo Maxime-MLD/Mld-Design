@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------- */
+/* Self-hosted fonts                                                       */
+/* ---------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Weight 900 — réservé au wordmark géant du footer (seul usage "Black" du site) */
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-900.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter (body) via @fontsource-variable/inter, IBM Plex Mono (nav/labels)
+    via @fontsource/ibm-plex-mono — imported once in BaseLayout.astro. Both
+    ship font-display: swap already. */
+
+/* ---------------------------------------------------------------------- */
+/* Design tokens                                                          */
+/* ---------------------------------------------------------------------- */
+
+@theme {
+  /* Surfaces */
+  --color-canvas: #000000;
+  --color-surface-soft: #0d0d0d;
+  --color-surface-card: #141414;
+  --color-surface-elevated: #1f1f1f;
+
+  /* Borders */
+  --color-hairline: #262626;
+  --color-hairline-strong: #3a3a3a;
+
+  /* Text */
+  --color-ink: #ffffff;
+  --color-body: #cccccc;
+  --color-muted: #999999;
+  --color-muted-soft: #666666;
+  --color-link: #c3d9f3;
+
+  /* Accent — the single source of truth for the site's tint.
+     Change this value to re-tint every accent usage across the site. */
+  --color-accent: #3b82f6;
+  --color-accent-soft: #93c5fd;
+  --color-accent-dim: #1d4ed8;
+
+  /* Typography */
+  --font-display: "Switzer", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter Variable", "Inter", -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  /* Script signature — usage unique et volontairement rare (Signature.astro) */
+  --font-signature: "Allura", cursive;
+
+  /* Radii — binary system: 0 for surfaces, pill for buttons, 50% for icon
+     buttons (applied directly via rounded-none / rounded-full / rounded-[50%]).
+     --radius-panel is the sole deliberate exception, used only for the
+     Réalisations grid and Contact containers (explicit client request). */
+  --radius-none: 0px;
+  --radius-pill: 9999px;
+  --radius-panel: 8px;
+
+  /* Vertical rhythm between major sections */
+  --spacing-section: 120px;
+  --spacing-section-mobile: 64px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Base styles                                                             */
+/* ---------------------------------------------------------------------- */
+
+@layer base {
+  * {
+    border-color: var(--color-hairline);
+  }
+
+  html {
+    background-color: var(--color-canvas);
+    color-scheme: dark;
+    scroll-behavior: auto; /* Lenis drives smooth scroll */
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-body);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Force les formes à bordure arrondie (pilules, cercles) sur leur propre
+      couche de composition GPU : sans ça, certains navigateurs (Chromium en
+      tête) rastérisent l'arc du bas d'un border-radius avec un anti-aliasing
+      visiblement plus fin que le reste du contour. */
+  .btn-primary,
+  .rounded-full,
+  .rounded-\[50\%\] {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  a.link-inline {
+    color: var(--color-link);
+    text-underline-offset: 3px;
+  }
+
+  /* Visible keyboard focus everywhere interactive */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 14px 32px;
+    line-height: 1;
+    /* box-shadow inset plutôt que border : avec border-radius en pilule, un
+       border classique peut rendre l'arc du bas visiblement plus fin que les
+       côtés (artefact d'anti-aliasing courant sous Chromium). Le box-shadow
+       inset dessine un anneau de 1px uniforme, insensible à ce bug. */
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+    border: none;
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    transition:
+      background-color 0.25s ease,
+      box-shadow 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    box-shadow: inset 0 0 0 1px var(--color-accent-soft);
+  }
+
+  .card {
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-none);
+  }
+
+  /* Lumière diffuse subtile dans le coin haut-gauche (Constat + cards
+     Services uniquement — pas Réalisations/Contact, qui gardent un fond uni). */
+  /* .card-glow {
+    background: radial-gradient(
+      circle at 0% 0%,
+      var(--color-surface-elevated) 0%,
+      var(--color-surface-card) 45%
+    );
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-none);
+  } */
+
+  .card-glow {
+    background: linear-gradient(
+      to bottom,
+      var(--color-surface-elevated) 0%,
+      var(--color-surface-card) 35%
+        /* Tu peux ajuster le % pour étirer le dégradé */
+    );
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-none);
+  }
+
+  /* Deliberate exception to the radius-0 rule (Réalisations + Contact) */
+  .panel {
+    background-color: var(--color-surface-soft);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--radius-panel);
+    overflow: hidden;
+  }
+
+  .text-input {
+    width: 100%;
+    height: 44px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-hairline-strong);
+    border-radius: 0;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    padding: 0 2px;
+  }
+
+  .text-input:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+  }
+
+  textarea.text-input {
+    height: auto;
+    min-height: 120px;
+    padding-top: 10px;
+    resize: vertical;
+  }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-muted);
+    font-size: 14px;
+  }
+
+  .section-y {
+    padding-top: var(--spacing-section-mobile);
+    padding-bottom: var(--spacing-section-mobile);
+  }
+
+  @media (min-width: 1024px) {
+    .section-y {
+      padding-top: var(--spacing-section);
+      padding-bottom: var(--spacing-section);
+    }
+  }
+}
