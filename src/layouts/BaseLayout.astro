@@ -22,7 +22,7 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(path, Astro.site);
-const ogImageURL = new URL("/og-image.jpg", Astro.site);
+const ogImageURL = new URL("/og_mld.png", Astro.site);
 
 // TODO: remplacer par les vraies coordonnées avant mise en ligne
 const localBusiness = {
@@ -58,7 +58,7 @@ const localBusiness = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-32.png" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
