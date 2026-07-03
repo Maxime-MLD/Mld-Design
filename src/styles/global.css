@@ -79,11 +79,26 @@
   /* Vertical rhythm between major sections */
   --spacing-section: 120px;
   --spacing-section-mobile: 64px;
+
+  --animate-shake: shake 0.2s ease-in-out 0s 2;
 }
 
 /* ---------------------------------------------------------------------- */
 /* Base styles                                                             */
 /* ---------------------------------------------------------------------- */
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
 
 @layer base {
   * {

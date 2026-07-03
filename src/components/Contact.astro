@@ -113,6 +113,9 @@ const contactPhone = "06 62 59 97 71";
                 autocomplete="email"
                 class="text-input"
               />
+              <span id="email-error" class="hidden text-xs text-red-500 mt-1">
+                Veuillez entrer une adresse email valide.
+              </span>
             </div>
 
             <div class="flex flex-col gap-2">
@@ -158,8 +161,39 @@ const contactPhone = "06 62 59 97 71";
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
   const status = document.querySelector<HTMLElement>("[data-contact-status]");
 
+  const emailInput = document.querySelector<HTMLInputElement>("#contact-email");
+  const emailError = document.querySelector<HTMLElement>("#email-error");
+
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    if (emailInput && emailError) {
+      // .validity.valid vérifie si l'email est vide ou mal écrit
+      if (!emailInput.validity.valid) { 
+        emailError.classList.remove("animate-shake");
+        emailError.classList.remove("hidden"); // On montre ton joli message rouge
+        emailInput.classList.add("border-red-500"); // Optionnel : on met l'input en rouge
+
+        requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+        emailError.classList.add("animate-shake");
+          });
+        });
+
+        return; // On bloque l'envoi
+      } else {
+        emailError.classList.add("hidden"); // On recache si c'est corrigé
+        emailError.classList.remove("animate-shake");
+        emailInput.classList.remove("border-red-500");
+      }
+    }
+    if (!status) return;
+
+    if (!form.checkValidity()) {
+      form.reportValidity(); // Affiche la bulle d'erreur ("Veuillez remplir ce champ")
+      return; // Bloque la suite du script et l'envoi Fetch
+    }
+
     if (!status) return;
 
     const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');

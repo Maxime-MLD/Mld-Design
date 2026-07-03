@@ -6,7 +6,7 @@
 // ---------------------------------------------------------------------------
 
 // OPTION A — VIDÉO : nécessite src/assets/video/hero.mp4
-import heroVideo from "../assets/video/hero_video.mp4";
+import heroVideo from "../assets/video/hero_video2.0.mp4";
 
 // OPTION B — IMAGE : nécessite une image dans src/assets/images/
 // import { Image } from "astro:assets";
@@ -17,13 +17,13 @@ import heroVideo from "../assets/video/hero_video.mp4";
   id="hero"
   class="relative flex min-h-screen items-end overflow-hidden lg:items-center"
 >
-  <div class="absolute inset-0 -z-0" data-hero-bg>
+  <div class="absolute inset-0" data-hero-bg>
     
       <!-- ACTIVER ICI : décommenter le bloc VIDEO ou le bloc IMAGE ci-dessous
       (et l'import correspondant dans le frontmatter), puis supprimer la
       classe "bg-canvas" sur le div parent. -->
 
-      <!-- BLOC A — VIDEO
+      <!-- BLOC A — VIDEO -->
       <video
         class="absolute inset-0 h-full w-full object-cover"
         autoplay
@@ -35,7 +35,17 @@ import heroVideo from "../assets/video/hero_video.mp4";
       >
         <source src={heroVideo} type="video/mp4" />
       </video>
-      <div class="absolute inset-0 bg-black/60"></div> -->
+      <div class="absolute inset-0 z-10 bg-black/40"></div>
+      <!-- Dégradé noire du bas de la vidéo  -->
+      <div
+        class="absolute inset-0 z-10"
+        style="background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.95) 100%), linear-gradient(to bottom, transparent 60%, #000000 100%);"
+      ></div>
+      <!-- Dégradé en cercle autours de la vidéo  -->
+      <div 
+        class="absolute inset-0 z-10"
+        style="background: radial-gradient(circle, rgba(0,0,0,0) 25%, rgba(0,0,0,0.9) 90%);"
+      ></div>
 
       <!-- <Image
         src={heroImage}
@@ -50,13 +60,13 @@ import heroVideo from "../assets/video/hero_video.mp4";
       <div class="absolute inset-0 bg-black/80"></div> -->
   </div>
 
-  <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-24 lg:px-10 lg:pb-0">
-    <!-- <p class="label-mono mb-6" data-animate="reveal">
-      Des sites modernes
-    </p> -->
+  <!-- <p class="label-mono mb-6" data-animate="reveal">
+    Des sites modernes
+  </p> -->
+  <div class="relative z-20 mx-auto w-full max-w-[1400px] px-6 pb-24 lg:px-10 lg:pb-0">
 
     <h1 class="max-w-4xl text-4xl lg:text-6xl" data-animate="reveal">
-      Agence web à Roanne dans la création <br> de site internet
+      MLD Dev à Roanne <br> création de site internet
     </h1>
 
     <p
