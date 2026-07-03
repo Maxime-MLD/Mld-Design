@@ -7,7 +7,7 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  site: "www.mld-dev.com",
+  site: "https://mld-dev.com",
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
