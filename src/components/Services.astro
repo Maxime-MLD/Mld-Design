@@ -35,7 +35,7 @@ const services = [
 
     <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
       {services.map((service) => (
-        <div class="card-glow flex flex-col gap-6 p-8" data-animate="reveal">
+        <div class="card-glow flex flex-col gap-6 overflow-hidden p-8" data-animate="reveal">
           <span class="font-mono text-xs text-muted">{service.index}</span>
           <h3 class="text-lg lg:text-xl text-accent">{service.title}</h3>
           <p class="font-body text-sm normal-case tracking-normal text-ink">

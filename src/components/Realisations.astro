@@ -16,7 +16,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 
     <div class="panel mt-16 p-4 lg:p-8">
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
-        {realisations.map((item) => {
+        {realisations.map((item, index) => {
           const image = images[`/src/assets/images/realisations/${item.src}`];
           const Tag = item.url ? "a" : "div";
           return (
@@ -24,11 +24,11 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
               {...(item.url
                 ? { href: item.url, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
-              class="group border border-hairline bg-surface-card"
+              class="group overflow-hidden border border-hairline bg-surface-card"
             >
               <div
                 class="relative aspect-[3/2] overflow-hidden"
-                data-animate="image-reveal"
+                data-animate={index < 2 ? "image-reveal" : undefined}
               >
                 {image && (
                   <Image
@@ -49,6 +49,10 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
           );
         })}
       </div>
+    </div>
+
+    <div class="mt-12 text-center" data-animate="reveal">
+      <a href="#contact" class="btn-primary">Discutons de votre projet</a>
     </div>
   </div>
 </section>

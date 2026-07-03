@@ -7,50 +7,62 @@ const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
 
-export function initAnimations() {
-  const revealTargets = gsap.utils.toArray<HTMLElement>('[data-animate="reveal"]');
-  const imageFrames = gsap.utils.toArray<HTMLElement>('[data-animate="image-reveal"]');
+/**
+ * Effet "Flou Cinétique" unique et centralisé : tous les éléments animés du
+ * site (titres, TrustBar, Constat, cards Services/Étapes, items FAQ, Contact,
+ * grille Réalisations...) passent par cette même fonction pour une cohérence
+ * totale — plus aucun clip-path ailleurs dans le code.
+ *
+ * filter: blur() est coûteux au rendu : will-change est posé juste avant
+ * l'animation (onStart) et retiré juste après (onComplete) pour ne pas
+ * laisser cette charge GPU en permanence sur la page.
+ */
+function kineticBlurReveal(elements: HTMLElement[], options: { stagger?: number } = {}) {
+  if (!elements.length) return;
 
   if (prefersReducedMotion) {
-    gsap.set(revealTargets, { clipPath: "inset(0 0 0% 0)", opacity: 1 });
-    gsap.set(imageFrames, { clipPath: "inset(0% 0 0 0)" });
+    // Pas de flou ni de mouvement : un simple fondu instantané suffit.
+    gsap.set(elements, { opacity: 1, scale: 1, filter: "blur(0px)" });
     return;
   }
 
-  // Reveal des titres, stats, cards, étapes, items FAQ... — groupés par section
-  // pour que le stagger ne se déclenche qu'entre éléments qui entrent en même temps.
-  // L'état masqué est posé immédiatement (gsap.set) pour éviter un flash de
-  // contenu visible avant que le batch n'entre dans sa zone de déclenchement.
-  gsap.set(revealTargets, { clipPath: "inset(0 0 100% 0)", opacity: 0 });
+  gsap.set(elements, { opacity: 0, scale: 1.07, filter: "blur(12px)" });
 
-  ScrollTrigger.batch(revealTargets, {
+  ScrollTrigger.batch(elements, {
     start: "top 85%",
     once: true,
     onEnter: (batch) =>
       gsap.to(batch, {
-        clipPath: "inset(0 0 0% 0)",
         opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.13,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 1.1,
+        ease: "power2.out",
+        stagger: options.stagger ?? 0.13,
+        onStart: function (this: gsap.core.Tween) {
+          this.targets().forEach((el) => {
+            (el as HTMLElement).style.willChange = "filter, transform, opacity";
+          });
+        },
+        onComplete: function (this: gsap.core.Tween) {
+          this.targets().forEach((el) => {
+            (el as HTMLElement).style.willChange = "auto";
+          });
+        },
       }),
   });
+}
 
-  // Réalisations — clip-path reveal à l'entrée. L'image reste fixe (cadrage
-  // exact, sans recadrage ni pan) ; le zoom léger au survol est géré en CSS
-  // pur (group-hover) dans Realisations.astro, pas ici.
-  imageFrames.forEach((frame) => {
-    gsap.fromTo(
-      frame,
-      { clipPath: "inset(100% 0 0 0)" },
-      {
-        clipPath: "inset(0% 0 0 0)",
-        duration: 1.1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: frame, start: "top 85%", once: true },
-      },
-    );
-  });
+export function initAnimations() {
+  const revealTargets = gsap.utils.toArray<HTMLElement>('[data-animate="reveal"]');
+  const imageFrames = gsap.utils.toArray<HTMLElement>('[data-animate="image-reveal"]');
+
+  // Titres, TrustBar, stats Constat, cards Services/Étapes, items FAQ,
+  // formulaire/coordonnées Contact — un seul et même effet cinétique.
+  kineticBlurReveal(revealTargets, { stagger: 0.13 });
+
+  // Grille Réalisations — exactement la même fonction, mêmes valeurs.
+  kineticBlurReveal(imageFrames, { stagger: 0.13 });
 
   // Étapes — spotlight qui suit le curseur sur chaque card (superposé au
   // fond .card-glow existant). Désactivé sans hover fiable (tactile) : on
