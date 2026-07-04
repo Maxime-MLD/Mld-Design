@@ -93,3 +93,41 @@ import heroVideoMobile from "../assets/video/hero_video_mobile.mp4";
     </div>
   </div>
 </section>
+
+<script define:vars={{ heroVideoMobile, heroVideo }}>
+  
+  function initHeroVideo() {
+    const video = document.getElementById('hero-video');
+    if (!video) return;
+
+    // 1. Déterminer quelle vidéo charger
+    const isMobile = window.innerWidth < 768;
+    const videoSrc = isMobile ? heroVideoMobile : heroVideo;
+
+    // 2. Assigner la source directement à l'attribut src (plus fiable sur mobile)
+    video.src = videoSrc;
+    
+    // 3. Forcer le chargement et la lecture
+    video.load();
+    
+    // Contrer le blocage agressif des mobiles
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Si le navigateur bloque, on retente la lecture au premier clic/scroll de l'utilisateur
+        const forcePlay = () => {
+          video.play();
+          document.removeEventListener('touchstart', forcePlay);
+          document.removeEventListener('scroll', forcePlay);
+        };
+        document.addEventListener('touchstart', forcePlay);
+        document.addEventListener('scroll', forcePlay);
+      });
+    }
+  }
+
+  // Lancement au chargement du DOM
+  document.addEventListener('DOMContentLoaded', initHeroVideo);
+  // Sécurité pour Astro (gestion des transitions de pages si activées)
+  document.addEventListener('astro:page-load', initHeroVideo);
+</script>
