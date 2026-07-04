@@ -1,0 +1,29 @@
+# MLD Dev
+
+> Agence de développement web freelance basée à Roanne (Loire, 42), spécialisée dans la création de sites vitrines premium pour artisans, restaurateurs et professions locales en France.
+
+MLD Dev conçoit et développe des sites vitrines mono-page et multi-pages, propose des refontes de sites existants et un service de maintenance. Approche de A à Z : du premier échange à la mise en ligne, le client reste 100% propriétaire de son site.
+
+## Services
+
+- [Sites mono-page](https://www.mld-dev.com/#services): création de site vitrine une seule page, adapté aux petites structures.
+- [Sites multi-pages](https://www.mld-dev.com/#services): site avec plusieurs pages dédiées (services, à propos, contact...).
+- [Refonte de site](https://www.mld-dev.com/#services): modernisation d'un site existant obsolète ou peu performant.
+- [Maintenance](https://www.mld-dev.com/#services): suivi, mises à jour et modifications après mise en ligne.
+
+## Réalisations
+
+- [Réalisations](https://www.mld-dev.com/#realisations): sites vitrines livrés pour des clients locaux (artisans, professions locales) en Loire.
+
+## Process
+
+- [Les étapes](https://www.mld-dev.com/#etapes): échange initial, maquette, développement, livraison.
+
+## Contact
+
+- [Contact](https://www.mld-dev.com/#contact): formulaire de contact, coordonnées, localisation à Roanne (Loire, 42).
+
+## Informations légales
+
+- [Mentions légales](https://www.mld-dev.com/mentions-legales)
+- [Politique de confidentialité](https://www.mld-dev.com/politique-de-confidentialite)
