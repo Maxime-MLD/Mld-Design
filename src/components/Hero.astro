@@ -23,41 +23,43 @@ import heroVideoMobile from "../assets/video/hero_video_mobile.mp4";
       (et l'import correspondant dans le frontmatter), puis supprimer la
       classe "bg-canvas" sur le div parent. -->
 
-      <!-- BLOC A — VIDEO -->
+      <!-- BLOC A — VIDEO
+           Chargement différé : ni autoplay ni preload au démarrage, et la
+           source est en data-src (aucun téléchargement au chargement). Le
+           script en bas lance la vidéo visible seulement après window.load,
+           pour libérer toute la bande passante au profit du chemin critique
+           (CSS + police du H1 = élément LCP). Le poster couvre l'écran en
+           attendant. -->
 <video
-  class="absolute inset-0 h-full w-full object-cover object-center block md:hidden"
-  autoplay
+  class="hero-video absolute inset-0 h-full w-full object-cover object-center block md:hidden"
   muted
   loop
   playsinline
   webkit-playsinline
-  preload="auto"
+  preload="none"
   poster="/images/hero_poster.webp"
->
-  <source src={heroVideoMobile} type="video/mp4" />
-</video>
+  data-src={heroVideoMobile}
+></video>
 
 <video
-  class="absolute inset-0 h-full w-full object-cover object-center hidden md:block"
-  autoplay
+  class="hero-video absolute inset-0 h-full w-full object-cover object-center hidden md:block"
   muted
   loop
   playsinline
   webkit-playsinline
-  preload="auto"
+  preload="none"
   poster="/images/hero_poster.webp"
->
-  <source src={heroVideo} type="video/mp4" />
-</video>
+  data-src={heroVideo}
+></video>
       <div class="absolute inset-0 z-10 bg-black/40"></div>
       <!-- Dégradé noire du bas de la vidéo  -->
       <div
         class="absolute inset-0 z-10 bg-hero-premium-blend"
       ></div>
       <!-- Dégradé en cercle autours de la vidéo  -->
-      <div 
+      <!-- <div 
         class="absolute inset-0 z-10 bg-hero-radial-soft"
-      ></div>
+      ></div> -->
 
       <!-- <Image
         src={heroImage}
@@ -77,57 +79,61 @@ import heroVideoMobile from "../assets/video/hero_video_mobile.mp4";
   </p> -->
   <div class="relative z-20 mx-auto w-full max-w-[1400px] px-6 pb-24 lg:px-10 lg:pb-0">
 
-    <h1 class="max-w-4xl text-4xl lg:text-6xl" data-animate="reveal">
+    <!-- Contenu au-dessus de la ligne de flottaison : rendu visible dès le
+         premier paint (pas de data-animate="reveal"). Le gating JS opacity:0
+         sur le H1 — l'élément LCP — retardait le LCP de plusieurs secondes sur
+         mobile (Render Delay). Le hero doit s'afficher immédiatement. -->
+    <h1 class="max-w-4xl text-4xl lg:text-6xl">
       MLD Dev à Roanne <br> création de site internet
     </h1>
 
     <p
       class="mt-6 max-w-xl font-body text-base normal-case tracking-normal text-body lg:text-lg"
-      data-animate="reveal"
     >
       Je crée des sites vitrine modernes qui donnent aux entreprises de Roanne & de la Loire (42) la visibilité qu'elles méritent.
     </p>
 
-    <div class="mt-10" data-animate="reveal">
+    <div class="mt-10">
       <a href="#contact" class="btn-primary">Discutons de votre projet</a>
     </div>
   </div>
 </section>
 
-<script define:vars={{ heroVideoMobile, heroVideo }}>
-  
-  function initHeroVideo() {
-    const video = document.getElementById('hero-video');
-    if (!video) return;
+<script>
+  // Démarrage différé de la vidéo de fond : on ne touche à rien tant que la
+  // page n'est pas chargée, pour ne pas concurrencer le chemin critique (LCP).
+  // On ne charge que la vidéo réellement visible (l'autre est en display:none).
+  function startHeroVideo() {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return; // On garde le poster fixe, pas de lecture auto.
 
-    // 1. Déterminer quelle vidéo charger
-    const isMobile = window.innerWidth < 768;
-    const videoSrc = isMobile ? heroVideoMobile : heroVideo;
-
-    // 2. Assigner la source directement à l'attribut src (plus fiable sur mobile)
-    video.src = videoSrc;
-    
-    // 3. Forcer le chargement et la lecture
-    video.load();
-    
-    // Contrer le blocage agressif des mobiles
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Si le navigateur bloque, on retente la lecture au premier clic/scroll de l'utilisateur
-        const forcePlay = () => {
-          video.play();
-          document.removeEventListener('touchstart', forcePlay);
-          document.removeEventListener('scroll', forcePlay);
-        };
-        document.addEventListener('touchstart', forcePlay);
-        document.addEventListener('scroll', forcePlay);
-      });
-    }
+    const videos = document.querySelectorAll<HTMLVideoElement>(".hero-video");
+    videos.forEach((video) => {
+      if (video.offsetParent === null) return; // caché (display:none) → on ignore
+      const src = video.getAttribute("data-src");
+      if (!src || video.src) return;
+      video.src = src;
+      video.load();
+      const p = video.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          // Certains mobiles bloquent l'autoplay : on retente au 1er geste.
+          const resume = () => {
+            video.play();
+            document.removeEventListener("touchstart", resume);
+            document.removeEventListener("scroll", resume);
+          };
+          document.addEventListener("touchstart", resume, { passive: true });
+          document.addEventListener("scroll", resume, { passive: true });
+        });
+      }
+    });
   }
 
-  // Lancement au chargement du DOM
-  document.addEventListener('DOMContentLoaded', initHeroVideo);
-  // Sécurité pour Astro (gestion des transitions de pages si activées)
-  document.addEventListener('astro:page-load', initHeroVideo);
+  if (document.readyState === "complete") {
+    startHeroVideo();
+  } else {
+    window.addEventListener("load", startHeroVideo, { once: true });
+  }
 </script>
+
