@@ -1,25 +1,27 @@
 ---
+import { File, Files, RefreshCw, MonitorCog } from "lucide-astro";
+
 const services = [
   {
-    index: "01",
+    icon: File,
     title: "Sites mono-page",
     description:
       "Un site one-page efficace pour présenter votre activité, vos services et votre localisation en une seule page pensée pour convertir vite.",
   },
   {
-    index: "02",
+    icon: Files,
     title: "Sites multi-pages",
     description:
       "Une structure de plusieurs pages pour détailler vos services, vos réalisations et votre histoire, avec une architecture pensée pour le référencement.",
   },
   {
-    index: "03",
+    icon: RefreshCw,
     title: "Refonte de site",
     description:
       "Votre site actuel ne vous ressemble plus ou ne convertit pas ? Je le repense entièrement, du design au code, sans perdre votre référencement existant.",
   },
   {
-    index: "04",
+    icon: MonitorCog,
     title: "Maintenance",
     description:
       "Je garde votre site performant, à jour et sécurisé, et j'interviens rapidement pour toute modification ou évolution future.",
@@ -33,16 +35,29 @@ const services = [
       Mes Services
     </h2>
 
-    <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-      {services.map((service) => (
-        <div class="card-glow flex flex-col gap-6 overflow-hidden p-8" data-animate="reveal">
-          <span class="font-mono text-xs text-muted">{service.index}</span>
-          <h3 class="text-lg lg:text-xl text-accent">{service.title}</h3>
-          <p class="font-body text-sm normal-case tracking-normal text-ink">
-            {service.description}
-          </p>
-        </div>
-      ))}
+    <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+      {services.map((service) => {
+        const Icon = service.icon;
+        return (
+          <div
+            class="card-glow flex flex-col gap-8 overflow-hidden p-8 lg:p-16"
+            data-animate="reveal"
+          >
+            <span
+              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-elevated"
+              aria-hidden="true"
+            >
+              <Icon color="var(--color-accent)" strokeWidth={1.5} size={40} />
+            </span>
+            <div class="flex flex-col gap-4">
+              <h3 class="text-xl text-accent lg:text-2xl">{service.title}</h3>
+              <p class="font-body text-sm normal-case tracking-normal text-ink lg:text-base">
+                {service.description}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   </div>
 </section>
